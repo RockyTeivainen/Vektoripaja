@@ -22,13 +22,12 @@
 
 - Viewport Navigation & Canvas Interface 
 - Volumetric Inflation Algorithms
+- Vector-based zoom up to 200%
 
 
 
 
 
-
-### Miksi?
 
 
 ## MVP:n jälkeen tulevat ominaisuudet
@@ -38,13 +37,16 @@
 
 - Polyhedra Placeholders 
 - Boolean-operariot (yhdistäminen ja leikkaaminen)
-### Miksi?
+## Miksi?
 Alkuperäinen orientaatio periytyy 2D luonnosten perusteella ja kappaleen kääntely on poikkeus ohjelman perustoimintaan.
 Mesh pipeline-osio on pienempiä yksityiskohtia varten eli ei välttämättömyys.
 
-Monitahokkaat ja niihin liittyvät luonnos placeholderit toimivat eri periaatteella kuin ydintoiminta (tarkoitus on, että esim. sivuprofiilin luonnos on mahdollisimman tarkka ja kirjaimellinen kuvaus kyseisen kuvakulman siluetista).
+Monitahokkaat ja niihin liittyvät luonnos placeholderit toimivat eri periaatteella kuin ydintoiminta.
+Tarkoitus on, että esim. sivuprofiilin luonnos on mahdollisimman tarkka ja kirjaimellinen kuvaus kyseisen kuvakulman siluetista.
 
 Boolean-operaatiot eivät ole suoraan osa "Kolmiulotteista piirtämistä" eli ohjelman perusperiaatetta, joten se on P2-version ominaisuus.
+
+Loput ominaisuudet taas ovat osa perustoiminnallisuutta ja käyttöliittymää, jolloin ne kuuluvat P0-versioon
 
 
 
