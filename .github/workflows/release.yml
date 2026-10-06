@@ -1,0 +1,70 @@
+# Vektoripajan julkaisu: tagi → testit → Windows-versio → itsetesti → zip releaseen.
+#
+# Julkaise:  git tag v0.0.1   ja sitten   git push origin v0.0.1
+# Actions-välilehdellä näet ajon. Kun ajo on vihreä, zip on Releases-sivulla.
+# Käsin ajo (Run workflow) tekee saman, mutta zip tulee vain ajon Artifacts-kohtaan.
+name: Julkaisu
+run-name: Julkaisu ${{ github.ref_name }}
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Asenna kirjastot
+        run: python -m pip install -r requirements.txt
+
+      - name: Aja testit (pytest)
+        run: |
+          python -m pytest
+          if ($LASTEXITCODE -eq 5) { Write-Host "Testejä ei vielä ole."; exit 0 }
+          exit $LASTEXITCODE
+
+      - name: Rakenna Windows-versio (PyInstaller)
+        run: python -m PyInstaller --noconfirm --clean vektoripaja.spec
+
+      - name: Aja itsetesti valmiille .exe:lle
+        run: |
+          $ajo = Start-Process -FilePath "dist\Vektoripaja\Vektoripaja.exe" -ArgumentList "--itsetesti" -Wait -PassThru
+          Get-Content "$env:TEMP\vektoripaja-itsetesti.log"
+          if ($ajo.ExitCode -ne 0) { throw "Itsetesti ei mennyt läpi (paluukoodi $($ajo.ExitCode))." }
+
+      - name: Tee zip
+        run: |
+          Copy-Item LUE_MINUT.txt "dist\Vektoripaja\"
+          $zip = "Vektoripaja-${{ github.ref_name }}-windows.zip"
+          Compress-Archive -Path "dist\Vektoripaja" -DestinationPath $zip
+          "ZIP=$zip" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          $kansio = (Get-ChildItem "dist\Vektoripaja" -Recurse -File | Measure-Object Length -Sum).Sum
+          Write-Host ("{0}: {1} Mt (purettuna {2} Mt)" -f $zip, [math]::Round((Get-Item $zip).Length / 1MB), [math]::Round($kansio / 1MB))
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: vektoripaja-windows
+          path: ${{ env.ZIP }}
+
+      - name: Julkaise release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "${{ github.ref_name }}" "$env:ZIP"
+          --title "Vektoripaja ${{ github.ref_name }}"
+          --notes "Lataa zip, pura se (Pura kaikki) ja lue LUE_MINUT.txt. Itsetesti meni läpi."
