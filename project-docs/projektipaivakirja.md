@@ -36,11 +36,11 @@ Loput ominaisuudet taas ovat osa perustoiminnallisuutta ja käyttöliittymää, 
 ### Missä työnäyte on?
 näyttömatriisin vaatimukset: kehitysympäristö ja tärkeysjärjestys, repositoryn osoite: https://github.com/RockyTeivainen/Vektoripaja
 
-## Vko 41 – Harjoitus: pyörivä kuutio julki
+## Vko 41 – Työkalut käyttöön: valmis kuutio
 
-**Viikon kärki:** Windowsissa käynnistyy ladattu harjoitussovellus, jossa kuutio pyörii.
+**Viikon kärki:** Saat valmiiksi tehdyn kuution pyörimään oman tietokoneesi ruudulla GitHub Copilotin avulla.
 
-**Viikon tuotos:** Ikkuna, jossa kuutio pyörii · testit 1 ja 2 · release-zip GitHubissa · kaksi issueta suljettuna commit-viestillä · päätös teknisestä pohjasta suunnitelmassa.
+**Viikon tuotos:** Toimiva Python-ympäristö ja ruudulla pyörivä valmis kuutio.
 
 ### Mitä tein ja miten?
 Ei vielä kirjattu.
