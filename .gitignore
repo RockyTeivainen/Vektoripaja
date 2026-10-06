@@ -1,0 +1,9 @@
+# Virtuaaliympäristö: jokainen luo omansa, sitä ei viedä GitHubiin.
+.venv/
+# Pythonin välitiedostot
+__pycache__/
+*.pyc
+.pytest_cache/
+# PyInstallerin rakennuskansiot: valmis zip tulee GitHubin releaseen.
+build/
+dist/

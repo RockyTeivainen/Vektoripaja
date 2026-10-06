@@ -1,0 +1,27 @@
+VEKTORIPAJA – LUE MINUT
+
+Vektoripaja tekee Inkscapen SVG-piirroksesta low-poly 3D-mallin ja vie sen
+.obj-tiedostoksi. Sovellus toimii Windowsissa. Pythonia ei tarvita.
+
+1. PURA ZIP ENSIN
+   Napsauta ladattua zip-tiedostoa hiiren oikealla painikkeella.
+   Valitse Pura kaikki. Valitse kansio. Valitse sitten Pura.
+   Älä käynnistä sovellusta suoraan zipin sisältä. Se ei toimi.
+
+2. KÄYNNISTÄ
+   Avaa purettu kansio. Sen sisällä on kansio Vektoripaja. Avaa se.
+   Kaksoisnapsauta tiedostoa Vektoripaja.exe.
+   Kansio _internal kuuluu sovellukseen. Pidä se .exe-tiedoston vieressä.
+
+3. JOS WINDOWS SANOO "WINDOWS SUOJASI TIETOKONETTASI"
+   Tämä on Microsoft Defender SmartScreen. Se varoittaa, koska sovellusta
+   ei ole allekirjoitettu. Sovellus on tehty oppilaitoksen näyttöprojektina.
+   Valitse Lisätietoja. Valitse sitten Suorita silti.
+
+4. TARKISTA, ETTÄ SOVELLUS TOIMII
+   Avaa kansio Vektoripaja. Kirjoita Resurssienhallinnan osoiteriville cmd
+   ja paina Enter. Komentokehote aukeaa tähän kansioon.
+   Aja nämä kaksi komentoa:
+       start /wait Vektoripaja.exe --itsetesti
+       type %TEMP%\vektoripaja-itsetesti.log
+   Tulosteen viimeisellä rivillä pitää lukea ITSETESTI LÄPI.

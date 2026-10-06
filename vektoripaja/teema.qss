@@ -1,0 +1,53 @@
+/* Vektoripajan teema. Hyväksytty teematestissä 23.9.2026:
+   musta tausta, yksi väri #1fa4e3, Arial, iso teksti, 2 px reuna ja 3 px fokus. */
+
+QWidget {
+    background-color: #000000;
+    color: #1fa4e3;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+}
+
+QPushButton {
+    border: 2px solid #1fa4e3;
+    padding: 12px 20px;
+    min-height: 48px;
+}
+
+QPushButton:hover,
+QPushButton:pressed,
+QPushButton:checked {
+    background-color: #1fa4e3;
+    color: #000000;
+}
+
+QPushButton:focus,
+QLineEdit:focus,
+QSpinBox:focus,
+QDoubleSpinBox:focus,
+QComboBox:focus,
+QTreeWidget:focus {
+    border: 3px solid #1fa4e3;
+}
+
+QLineEdit,
+QSpinBox,
+QDoubleSpinBox,
+QComboBox,
+QTreeWidget {
+    border: 2px solid #1fa4e3;
+    padding: 6px;
+    selection-background-color: #1fa4e3;
+    selection-color: #000000;
+}
+
+QTreeWidget::item:selected {
+    background-color: #1fa4e3;
+    color: #000000;
+}
+
+QToolTip {
+    background-color: #000000;
+    color: #1fa4e3;
+    border: 2px solid #1fa4e3;
+}
