@@ -7,10 +7,10 @@
 > Projektin nimi ja tekijä. Kirjoita ne viikolla 40.
 
 ### Projektin nimi (viikko 40)
-> Kirjoita projektin nimi.
+> Vektoripaja
 
 ### Tekijä (viikko 40)
-> Kirjoita tekijänimi, jonka sovit ohjaajan kanssa.
+> Rocky
 
 ## 1 · Tavoite
 > Esitäytetty toimeksiannosta. Älä muuta.

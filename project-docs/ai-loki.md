@@ -25,3 +25,9 @@
 
 ## Merkinnät
 > Omat merkintäsi tähän, vanhin ensin.
+### 06.10.2026 · Github Copilot, Agentti (oletusasetukset)
+- Mihin pyysin apua: Pyysin hakemaan sisältöä gitistä ja yhdistämään tiedostojen sisältöjä
+- Päätös: Hyväksyn
+- Peruste: Hyväksyn ratkaisut, koska pyynnön lopputulos on mitä halusin ja rakenne säilyy.
+- Aineistoviite: issue #__, testi __
+- Tietosuoja: En syöttänyt henkilötietoja, salasanoja tai luottamuksellista aineistoa.
