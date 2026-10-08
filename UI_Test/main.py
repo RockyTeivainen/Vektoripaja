@@ -46,6 +46,11 @@ class MainWindow(QMainWindow):
 
         top_labels = ("File", "Edit", "View")
         top_colors = (("#004500", "#00c8df"), ("#000055", "#ff6800"))
+        tool_colors = (
+            ("#FF6500", "#000000"),
+            ("#008000", "#000000"),
+            (top_colors[0][1], top_colors[0][0]),
+        )
         top_layout.addStretch(1)
         for index, text in enumerate(top_labels):
             background, foreground = top_colors[index % len(top_colors)]
@@ -81,16 +86,17 @@ class MainWindow(QMainWindow):
             Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignLeft
         )
 
-        for _ in range(8):
+        for index in range(8):
             button = QPushButton("Tool")
             button.setSizePolicy(
                 QSizePolicy.Policy.Fixed,
                 QSizePolicy.Policy.Fixed,
             )
-            color = "#FF6500" if len(self.tool_buttons) % 2 == 0 else "#008000"
+            background, foreground = tool_colors[index % len(tool_colors)]
             button.setStyleSheet(
                 "QPushButton { background-color: "
-                f"{color}; color: #000000; border: 0; padding: 0; }}"
+                f"{background}; color: {foreground}; "
+                "border: 0; padding: 0; }"
             )
             self.tool_buttons.append(button)
 
