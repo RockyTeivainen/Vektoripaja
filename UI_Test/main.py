@@ -31,6 +31,12 @@ class MainWindow(QMainWindow):
             "QSplitter::handle { background-color: #ffff00 ; }"
         )
 
+        self.window_frame = QWidget()
+        self.window_frame.setStyleSheet("background-color: #b00000;")
+        frame_layout = QVBoxLayout(self.window_frame)
+        frame_layout.setContentsMargins(35, 35, 35, 35)
+        frame_layout.setSpacing(0)
+
         self.top_bar = QWidget()
         self.top_bar.setMinimumHeight(40)
         self.top_bar.setStyleSheet("background-color: #ff6800;")
@@ -65,7 +71,9 @@ class MainWindow(QMainWindow):
 
         self.side_bar = QWidget()
         self.side_bar.setMinimumWidth(40)
-        self.side_bar.setStyleSheet("background-color: #000055;")
+        self.side_bar.setStyleSheet(
+            "background-color: #000055; border: 1px solid #ffff00;"
+        )
         self.tool_layout = QGridLayout(self.side_bar)
         self.tool_layout.setContentsMargins(0, 0, 0, 0)
         self.tool_layout.setSpacing(0)
@@ -94,7 +102,20 @@ class MainWindow(QMainWindow):
         label = QLabel("UI Layout Test Area")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         label.setStyleSheet("color: #FFFFFF;")
+        self.main_area_labels = [label]
+        self.top_bar_size_label = QLabel()
+        self.top_bar_size_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.top_bar_size_label.setStyleSheet("color: #FFFFFF;")
+        self.main_area_labels.append(self.top_bar_size_label)
+        self.side_bar_size_label = QLabel()
+        self.side_bar_size_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.side_bar_size_label.setStyleSheet("color: #FFFFFF;")
+        self.main_area_labels.append(self.side_bar_size_label)
+        main_layout.addStretch(1)
         main_layout.addWidget(label)
+        main_layout.addWidget(self.top_bar_size_label)
+        main_layout.addWidget(self.side_bar_size_label)
+        main_layout.addStretch(1)
 
         self.horizontal_splitter.addWidget(self.side_bar)
         self.horizontal_splitter.addWidget(self.main_area)
@@ -109,7 +130,8 @@ class MainWindow(QMainWindow):
         self.vertical_splitter.setCollapsible(1, False)
         self.vertical_splitter.setStretchFactor(0, 0)
         self.vertical_splitter.setStretchFactor(1, 1)
-        self.setCentralWidget(self.vertical_splitter)
+        frame_layout.addWidget(self.vertical_splitter)
+        self.setCentralWidget(self.window_frame)
 
         self.vertical_splitter.splitterMoved.connect(self._update_layout)
         self.horizontal_splitter.splitterMoved.connect(self._update_layout)
@@ -125,6 +147,13 @@ class MainWindow(QMainWindow):
         self._update_layout()
 
     def _update_layout(self, *_args: int) -> None:
+        self.top_bar_size_label.setText(
+            f"Yläpalkin korkeus: {self.top_bar.height()} px"
+        )
+        self.side_bar_size_label.setText(
+            f"Sivupalkin leveys: {self.side_bar.width()} px"
+        )
+
         available = self.side_bar.contentsRect().size()
         width = available.width()
         height = available.height()
@@ -180,6 +209,10 @@ class MainWindow(QMainWindow):
                 font = QFont(button.font())
                 font.setPixelSize(font_size)
                 button.setFont(font)
+
+        top_bar_font = self.edit_buttons[0].font()
+        for label in self.main_area_labels:
+            label.setFont(top_bar_font)
 
     def resizeEvent(self, event) -> None:
         super().resizeEvent(event)
