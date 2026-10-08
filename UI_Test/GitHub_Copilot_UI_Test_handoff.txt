@@ -1,0 +1,164 @@
+TEHTÄVÄ: Luo rajattu PySide6-käyttöliittymäprototyyppi
+
+Lue tämä tehtävänanto kokonaan ennen koodin tuottamista. Noudata sitä kirjaimellisesti. Jos yleinen ohjelmistokehityskäytäntö on ristiriidassa tämän tehtävänannon kanssa, noudata tätä tehtävänantoa. Älä lisää mitään, mitä tässä ei pyydetä.
+
+## Ympäristö ja toimitus
+
+- Kohdeympäristö: Python 3.13 ja PySide6 6.11.2.
+- Käytä ainoastaan Pythonin standardikirjastoa ja PySide6:ta.
+- Älä asenna tai lisää riippuvuuksia.
+- Luo kansio `UI_Test`, jos sitä ei vielä ole.
+- Luo vain yksi uusi tiedosto: `UI_Test/main.py`.
+- Älä luo README-, testi-, asetus-, resurssi-, loki- tai muita tiedostoja.
+- Vastaa lopuksi vain valmiilla `UI_Test/main.py`-koodilla yhdessä Python-koodilohkossa. Älä lisää selitystä, suunnitelmaa tai dokumentaatiota.
+
+## Tarkoitus
+
+Sovellus on ainoastaan käyttöliittymän sommittelun testityökalu. Käyttäjän pitää voida kokeilla suoraan käyttöliittymässä erikokoisia ylä- ja sivupalkkeja sekä nähdä painikkeiden ja niiden tekstien mukautuminen reaaliajassa ilman koodin muokkaamista tai sovelluksen uudelleenkäynnistystä.
+
+`UI_Reference.png` on vain Copilotille annettu visuaalinen referenssi. Jäljennä kuvan yleinen rakenne ja värimaailma mahdollisimman läheisesti tämän tehtävänannon rajoissa. Älä lataa, avaa, näytä, kopioi tai käytä kuvaa sovelluksen ajonaikaisena resurssina. Älä lisää kuvaa `UI_Test`-kansioon.
+
+## Ehdoton rajaus
+
+Sovelluksessa saa olla vain tässä määritellyt käyttöliittymäalueet, painikkeet, teksti ja koonmuutoskäyttäytyminen. Painikkeilla ei ole mitään toimintoja, eikä niiden `clicked`-signaaleja yhdistetä mihinkään.
+
+Älä lisää esimerkiksi:
+
+- valikkoriviä, työkaluriviä, tilariviä tai dock-widgettejä
+- välilehtiä, ponnahdusikkunoita tai kontekstivalikoita
+- tiedostojen avaamista tai tallennusta
+- asetuksia tai asettelun tallennusta/palautusta
+- tietokantaa, verkkotoimintoja tai lokitusta
+- pikanäppäimiä tai työkaluvihjeitä
+- drag and drop -toimintoja; tässä sallitaan vain QSplitter-kahvojen raahaaminen
+- animaatioita tai teeman vaihtoa
+- laskureita, mittalukemia, debug-tekstejä tai muuta testidataa
+- ylimääräisiä painikkeita, tekstejä, widgettejä tai näkymiä
+- liiketoimintalogiikkaa, tulevien ominaisuuksien runkoja tai TODO-kommentteja
+
+## Pääikkuna
+
+- Käytä yhtä `MainWindow(QMainWindow)`-pääluokkaa.
+- Aseta ikkunan otsikoksi `UI Test`.
+- Aseta minimikooksi 800 × 600.
+- Käynnistä ikkuna maksimoituna kutsulla `showMaximized()`.
+- Älä käytä `showFullScreen()`-kutsua. Tässä tehtävänannossa "fullscreen" tarkoittaa maksimoitua, tavallista käyttöjärjestelmäikkunaa, jotta käyttäjä voi palauttaa ikkunan normaalikokoiseksi, siirtää sitä ja muuttaa sen kokoa tavallisesti.
+
+## Widget-rakenne
+
+Toteuta täsmälleen tämä rakenne:
+
+QMainWindow
+└── vertical_splitter: QSplitter(Qt.Vertical)
+    ├── top_bar: QWidget
+    └── horizontal_splitter: QSplitter(Qt.Horizontal)
+        ├── side_bar: QWidget
+        └── main_area: QWidget
+
+Aseta `vertical_splitter` pääikkunan central widgetiksi. Älä käytä QDockWidgetiä.
+
+- `top_bar` käyttää `QHBoxLayout`-asettelua.
+- `side_bar` käyttää `QVBoxLayout`-asettelua.
+- `main_area` käyttää `QVBoxLayout`-asettelua.
+- Kaikkien kolmen layoutin contents margins ovat `(0, 0, 0, 0)` ja spacing on `0`.
+- Estä splitterien lapsialueiden romahtaminen kokonaan käyttämällä `setCollapsible(index, False)` molempien splitterien kummallekin lapselle.
+- `main_area` saa aina kaiken ylä- ja sivupalkilta jäljelle jäävän tilan.
+
+## Splitterit ja alkukoot
+
+- Molempien splitterien kahvan paksuus on 6 px (`setHandleWidth(6)`).
+- Tyylittele kahvat `QSplitter::handle`-valitsimella värille `#808080`.
+- Käyttäjä voi raahata pystysplitteriä ja muuttaa `top_bar`-alueen korkeutta reaaliajassa.
+- Käyttäjä voi raahata vaakasplitteriä ja muuttaa `side_bar`-alueen leveyttä reaaliajassa.
+- `top_bar`-alueen minimikorkeus on 40 px.
+- `side_bar`-alueen minimileveys on 40 px.
+- Aseta alkukoot vasta sen jälkeen, kun maksimoidun ikkunan todellinen koko on käytettävissä, esimerkiksi `QTimer.singleShot(0, ...)` -kutsulla:
+  - `top_bar`: 100 px; pystysplitterin toinen alue saa loput.
+  - `side_bar`: 80 px; vaakasplitterin toinen alue saa loput.
+- Aseta splitterien stretch factoreiksi niin, että ylä- ja sivupalkki säilyttävät käyttäjän valitseman koon mahdollisimman hyvin ja `main_area` vastaanottaa ikkunan koon muutoksista syntyvän lisätilan.
+- Älä lisää erillisiä koonmuutoskahvoja tai muita raahaustoimintoja.
+
+## Yläpalkki
+
+- Taustaväri: `#0C5F0C`.
+- Lisää täsmälleen 12 `QPushButton`-painiketta yhdelle vaakariville.
+- Jokaisen painikkeen teksti on täsmälleen `Edit`.
+- Painikkeiden taustaväri on `#FF7300`.
+- Lisää jokainen painike layoutiin samalla stretch-arvolla, jotta kaikki ovat keskenään yhtä leveitä.
+- Käytä jokaiselle painikkeelle `QSizePolicy.Expanding` sekä vaaka- että pystysuunnassa.
+- Painikkeet täyttävät käytettävissä olevan yläpalkin korkeuden ja jakavat leveyden tasan.
+- Älä aseta painikkeille kiinteää kokoa.
+
+## Sivupalkki
+
+- Taustaväri: `#0C5F0C`.
+- Lisää täsmälleen 8 `QPushButton`-painiketta yhteen pystyriviin.
+- Jokaisen painikkeen teksti on täsmälleen `Tool`.
+- Painikkeiden taustaväri on `#00A000`.
+- Lisää jokainen painike layoutiin samalla stretch-arvolla, jotta kaikki ovat keskenään yhtä korkeita.
+- Käytä jokaiselle painikkeelle `QSizePolicy.Expanding` sekä vaaka- että pystysuunnassa.
+- Painikkeet täyttävät käytettävissä olevan sivupalkin leveyden ja jakavat korkeuden tasan.
+- Älä aseta painikkeille kiinteää kokoa.
+
+## Keskialue
+
+- Taustaväri: `#120012`.
+- Lisää täsmälleen yksi `QLabel`, jonka teksti on `UI Layout Test Area`.
+- Keskitä teksti sekä vaaka- että pystysuunnassa käyttäen `Qt.AlignCenter`-kohdistusta.
+- Älä lisää keskialueelle mitään muuta.
+
+## Reaaliaikainen dynaaminen fonttiskaalaus
+
+Dynaaminen skaalaus on pakollinen osa testiä, ei ylimääräinen ominaisuus.
+
+- Yhdistä kummankin QSplitterin `splitterMoved`-signaali yhteen fonttien päivitysmetodiin.
+- Päivitä fontit myös pääikkunan `resizeEvent()`-tapahtumassa ja alkukokojen asettamisen jälkeen.
+- Käytä `QFont.setPixelSize()`-metodia, jotta rajat ovat pikseleinä yksiselitteisiä.
+- Edit-painikkeiden fonttikoon sallittu alue on 12–72 px.
+- Tool-painikkeiden fonttikoon sallittu alue on 10–48 px.
+- Kaikilla Edit-painikkeilla on aina keskenään sama fonttikoko.
+- Kaikilla Tool-painikkeilla on aina keskenään sama fonttikoko.
+- Laske kummallekin painikeryhmälle suurin sallittujen rajojen sisällä oleva kokonaislukufonttikoko, jolla ryhmän teksti mahtuu painikkeen todelliseen `contentsRect()`-alueeseen sekä leveys- että korkeussuunnassa.
+- Mittaa tekstin mahtuminen `QFontMetrics`-luokalla.
+- Jätä tekstin ympärille vähintään 8 px vaakasuuntainen ja 4 px pystysuuntainen sisämarginaali kummallekin puolelle; huomioi nämä mitat mahtumislaskennassa.
+- Jos käytettävissä oleva tila on niin pieni, ettei edes vähimmäisfontti mahdu kokonaan, käytä silti ryhmälle määriteltyä vähimmäisfonttikokoa. Älä piilota painikkeita tai tekstejä.
+- Fonttien tulee päivittyä näkyvästi splitteriä raahattaessa ja ikkunan kokoa muutettaessa ilman uudelleenkäynnistystä.
+- Älä käytä animaatiota, ajastettua jatkuvaa päivityssilmukkaa tai kolmannen osapuolen kirjastoja.
+
+## Ulkoasu
+
+Käytä Qt style sheetiä vain tässä määriteltyjen värien, splitterikahvojen ja painikkeiden luettavuuden toteuttamiseen:
+
+- `top_bar`: `#0C5F0C`
+- `side_bar`: `#0C5F0C`
+- `main_area`: `#120012`
+- Edit-painikkeet: `#FF7300`
+- Tool-painikkeet: `#00A000`
+- splitterikahvat: `#808080`
+- Käytä painikkeissa ja keskialueen tekstissä sellaista yksiväristä tekstiväriä, jolla teksti erottuu selvästi annetusta taustasta.
+- Älä lisää hover-, pressed-, checked-, disabled- tai muita tilakohtaisia tyylejä.
+- Älä lisää reunojen pyöristyksiä, kuvakkeita, kuvia tai koristeita, elleivät ne ole välttämättömiä tekstin luettavuudelle.
+
+## Koodin rakenne ja laatu
+
+- Käytä vain yhtä omaa luokkaa: `MainWindow`.
+- Käytä vain toteutuksen kannalta välttämättömiä metodeja, esimerkiksi käyttöliittymän luonti, alkukokojen asetus, fonttien päivitys ja tarvittava `resizeEvent`.
+- Säilytä painikkeet listoissa fonttien yhteistä päivitystä varten.
+- Kommentoi vain teknisesti olennaiset kohdat lyhyesti.
+- Koodin pitää olla valmis, kokonainen ja heti ajettavissa komennolla `python UI_Test/main.py`.
+- Lisää normaali `if __name__ == "__main__":` -käynnistyslohko, luo `QApplication`, luo `MainWindow`, kutsu `showMaximized()` ja käynnistä tapahtumasilmukka.
+- Älä lisää testikoodia, esimerkkikäyttöä tai käyttämättömiä importeja.
+
+## Hyväksymiskriteerit
+
+Ratkaisu hyväksytään vain, jos kaikki seuraavat toteutuvat:
+
+1. Sovellus käynnistyy maksimoituna mutta säilyy normaalisti koon muutettavana ikkunana.
+2. Näkyvissä ovat vain yläpalkki, sivupalkki, keskialue, 12 Edit-painiketta, 8 Tool-painiketta, keskitetty teksti ja kaksi splitterikahvaa.
+3. Yläpalkin korkeutta ja sivupalkin leveyttä voi muuttaa hiirellä splittereitä raahaamalla.
+4. Painikkeiden koko ja kummankin painikeryhmän fonttikoko mukautuvat reaaliajassa.
+5. Fonttikoot pysyvät annetuissa minimi- ja maksimirajoissa ja teksti sovitetaan sekä leveyteen että korkeuteen `QFontMetrics`-mittauksen avulla.
+6. Painikkeilla ei ole toimintoja.
+7. `UI_Reference.png`-kuvaa ei käytetä ajonaikaisesti.
+8. Uutena tiedostona syntyy ainoastaan `UI_Test/main.py`.
+9. Toteutuksessa ei ole mitään tämän tehtävänannon ulkopuolista ominaisuutta.
