@@ -24,6 +24,7 @@ class MainWindow(QMainWindow):
 
         self.edit_buttons: list[QPushButton] = []
         self.tool_buttons: list[QPushButton] = []
+        self.top_button_aspect_ratio: float | None = None
 
         self.vertical_splitter = QSplitter(Qt.Orientation.Vertical)
         self.vertical_splitter.setHandleWidth(6)
@@ -150,6 +151,12 @@ class MainWindow(QMainWindow):
         self.horizontal_splitter.setSizes(
             [80, max(1, self.horizontal_splitter.width() - 86)]
         )
+        self.top_bar.layout().activate()
+        first_button = self.edit_buttons[0]
+        if first_button.height() > 0:
+            self.top_button_aspect_ratio = (
+                first_button.width() / first_button.height()
+            )
         self._update_layout()
 
     def _update_layout(self, *_args: int) -> None:
@@ -159,6 +166,23 @@ class MainWindow(QMainWindow):
         self.side_bar_size_label.setText(
             f"Sivupalkin leveys: {self.side_bar.width()} px"
         )
+
+        if self.top_button_aspect_ratio is not None:
+            top_bar_width = self.top_bar.contentsRect().width()
+            top_bar_height = self.top_bar.contentsRect().height()
+            if top_bar_width > 0 and top_bar_height > 0:
+                button_height = min(
+                    top_bar_height,
+                    top_bar_width
+                    / (self.top_button_aspect_ratio * len(self.edit_buttons)),
+                )
+                button_width = self.top_button_aspect_ratio * button_height
+                for button in self.edit_buttons:
+                    button.setFixedSize(
+                        max(1, round(button_width)),
+                        max(1, round(button_height)),
+                    )
+                self.top_bar.layout().activate()
 
         available = self.side_bar.contentsRect().size()
         width = available.width()

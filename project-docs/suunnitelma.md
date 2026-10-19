@@ -1,3 +1,29 @@
+<style>
+    *{
+        background-color: rgb(1, 7, 9);
+        color: hsl(199, 77%, 74%);
+    }
+    h1, h2{
+        color: hsl(26, 95%, 30%);
+    }
+    h3, h4{ 
+        color: hsl(226, 82%, 45%);
+    }
+    /* Style bold text as rounded pill tags */
+strong {
+    background-color: #03007b !important;
+    color: #caa23c !important;
+    padding: 2px 8px !important;
+    border-radius: 6px !important;
+    font-weight: normal !important;
+}
+ul{
+    list-style-type: square;
+    color: Red;
+    padding: 9px
+}
+</style>
+
 # Vektoripaja – suunnitelma
 
 > Kirjoita oma tekstisi jokaisen >-ohjerivin jälkeen omalle rivilleen. Älä poista ohjerivejä.
@@ -66,15 +92,72 @@ En vaihda tekniikkaa kesken projektin. Jos pohja ei toimi, kerron siitä palaver
 
 #### Ehdotuksen ratkaisu
 
-Hyväksyn ehdotetusta pakollisesta ytimestä kaiken muun paitsi siirrän kiertotyökalun ja kiertopisteen P1-osioon. Kameran kääntö tasakulmiin, Bézier-kynä ja polkujen muokkaus sovelluksessa siirtyvät P0-osioon. Kameran asettaminen tasakulmiin, Bézier-kynä ja polkujen tukipisteiden muokkaaminen ovat oleellisia, kun tehdään epäsäännöllisiä kappaleita.
+Hyväksyn ehdotetusta pakollisesta ytimestä kaiken muun paitsi siirrän kiertotyökalun ja kiertopisteen P1-osioon. Kameran kääntö tasakulmiin, Bézier-kynä ja polkujen muokkaus sovelluksessa siirtyvät P0-osioon. Kameran asettaminen tasakulmiin, Bézier-kynä ja polkujen tukipisteiden muokkaaminen ovat oleellisia epäsäännöllisiä kappaleita tehdessä.
 
 ### Käyttöliittymävaatimus (viikko 43)
 > Kirjoita taustaväri, tekstin väri, tekstin koko ja painikkeiden koko.
 
+- pääalueen tausta: tummanvioletti (#120012)
+- ikkunan kehys: tummanpunainen (#b00000)
+- yläpalkin tausta: oranssi (#ff6800)
+- sivupalkin tausta: tummansininen (#000055)
+- jakajien väri: keltainen (#ffff00) 
+
+Yläpalkin painikkeissa käytetään vuorotelevia väripareja 
+- taustana tummanvihreää (#004500) ja tekstivärinä turkoosia (#00c8df)
+- taustana (#000055) ja oranssia (#ff6800) tekstiä
+
+Työkalupainikkeissa värit vuorottelevat: 
+- oranssi (#FF6500) tausta, musta (#000000) teksti
+- vihreä (#008000), musta (#000000) teksti 
+- turkoosi (#00c8df) musta (#000000) teksti. 
+Pääalueen tekstit ovat valkoisia.
+
+- yläpalkin lähtökorkeus: 100 px
+- yläpalkin vähimmäiskorkeus: 40 px
+- sivupalkin lähtöleveys: 246 px
+- sivupalkin vähimmäisleveys: 40 px
+- yläpalkin painikkeet täyttävät niille varatun tilan
+- työkalupainikkeita: 8 neliön muotoista painiketta
+- työkalupainikkeiden koko määräytyy sivupalkin käytettävissä olevan tilan mukaan
+- yläpalkin painikkeiden tekstikoko: 12–72 px tilan mukaan
+- työkalupainikkeiden tekstikoko: 10–48 px tilan mukaan
+- painikkeiden teksti sovitetaan painikkeeseen
+
 ### Kansiorakenne ja moduulien rajat (viikko 43)
-> Kirjoita kansiot ja tiedostot. Kirjoita jokaisen moduulin perään sen yksi vastuu.
+
+Sovelluksen koodi pidetään `vektoripaja/`-paketissa. Käyttöliittymä, SVG:n luku,
+geometria ja tiedostojen vienti erotetaan omiin moduuleihinsa. Geometria- ja
+muunnoslaskenta pidetään puhtaissa funktioissa ilman Qt-riippuvuutta, jotta niitä
+voi testata erillään käyttöliittymästä. Rakenne kuvaa tavoitetta: uusia moduuleja
+lisätään, kun niiden toiminnallisuutta toteutetaan.
+
+```text
+Vektoripaja/
+├── main.py                    Käynnistää sovelluksen tai itsetestin.
+├── vektoripaja/
+│   ├── __init__.py            Määrittää sovelluskoodin Python-paketiksi.
+│   ├── ikkuna.py              Kokoaa pääikkunan ja välittää käyttäjän toiminnot.
+│   ├── nakyma3d.py            Näyttää 3D-mallin ja hallitsee näkymää sekä kameraa.
+│   ├── svg_tuonti.py          Lukee SVG:n ja poimii siitä mallinnettavat osat.
+│   ├── geometria.py           Muodostaa ja muuntaa 3D-geometriaa puhtaina funktioina.
+│   ├── kierto.py              Laskee kiertoon liittyviä arvoja ilman Qt-riippuvuutta.
+│   ├── malli.py               Määrittää mallin osien tiedot ja sovelluksen mallin tilan.
+│   ├── obj_vienti.py          Vie mallin osat OBJ-tiedostoon.
+│   ├── projekti.py            Tallentaa projektin ja avaa sen tallennustiedostosta.
+│   ├── teema.py               Lataa sovelluksen tyylit ja tarjoaa yhteiset väriarvot.
+│   ├── teema.qss              Määrittää Qt-käyttöliittymän tyylit.
+│   └── itsetesti.py           Tarkistaa sovelluksen riippuvuudet ja perustoiminnot.
+├── esimerkit/                 Sisältää sovelluksessa käytettäviä esimerkkitiedostoja.
+├── tests/                     Sisältää automaattiset testit.
+├── project-docs/              Sisältää projektin suunnitelman ja dokumentaation.
+├── Päiväkirja/                Sisältää projektin päiväkirjan.
+├── AI-loki/                   Sisältää tekoälyn käytön lokit.
+└── README.md                  Esittelee projektin ja sovelluksen käynnistämisen.
+```
 
 ### Dokumentointitapa (viikko 43)
+<!-- Soivitaan 20.10.26 -->
 > Kirjoita palaverissa sovittu tapa: README ja käyttöohje. Kirjoita palaverin päivä.
 
 ### Rajapinnat (viikot 44, 48 ja 49)
