@@ -21,7 +21,7 @@ Tarvitset Windowsin ja Python 3.13:n.
 
    ```powershell
    py -3.13 -m venv .venv
-   .\.venv\Scripts\python.exe -m pip install -r project-docs\requirements.txt
+   .\.venv\Scripts\python.exe -m pip install -r requirements.txt
    ```
 
 3. Käynnistä sovellus:
@@ -97,4 +97,4 @@ Automaattiset testit voi ajaa projektin juuressa:
 Projektin tavoitteet, ominaisuussuunnitelma ja rajaukset löytyvät tiedostosta
 [project-docs/suunnitelma.md](project-docs/suunnitelma.md). Riippuvuudet ja
 niiden versiot on lueteltu tiedostossa
-[project-docs/requirements.txt](project-docs/requirements.txt).
+[requirements.txt](requirements.txt).
