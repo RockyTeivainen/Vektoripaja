@@ -6,3 +6,12 @@ Virhe: jos tiedosto ei ole SVG, funktio nostaa virheen ValueError ja näyttää 
 Tiedosto: vektoripaja/tuonti.py
 ## Vihamielinen tiedosto
 Tiedosto hylätään ja näytetään viesti "Tiedostossa on vihamielistä koodia, tiedosto hylätään."
+## Testi 3: kolme polkua
+Syöte: tiedostopolku tiedostotyyppi mukaanlukien (Testiaineisto/oma-piirros.svg)
+Odotettu tulos: 3
+## Testi 4: vihamielinen svg
+Syöte: tiedostopolku "Testiaineisto/haitallinen.svg"
+Odotettu tulos: Tiedosto hylätään ja näytetään viesti "Tiedostossa on vihamielistä koodia, tiedosto hylätään."
+## Testi 5: väärä tiedosto
+Syöte: tiedostopolku "Testiaineisto/ei-svg.txt"
+Odotettu tulos: Jos tiedosto ei ole SVG, funktio nostaa virheen ValueError ja näyttää viestin "Tiedoston pitää olla .svg- tai .obj-päätteinen"
