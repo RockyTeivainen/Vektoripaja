@@ -69,7 +69,7 @@ Avaa PowerShell projektin juuressa ja suorita:
 
 ```powershell
 py -3.13 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r project-docs\requirements.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 Käynnistä sovellus:
@@ -127,4 +127,4 @@ käynnistysohjeet tiedostosta [Käyttöohje.md](Käyttöohje.md).
 Projektissa käytetään muun muassa Pythonia, PySide6:ta, PyVistaa, pyvistaqt:ta,
 trimeshiä, NumPya, svgelements-kirjastoa, pytestiä ja PyInstalleria.
 Riippuvuuksien versiot on määritelty tiedostossa
-`project-docs/requirements.txt`.
+`requirements.txt`.
